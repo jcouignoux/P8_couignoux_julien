@@ -3,7 +3,11 @@
 {% block content %}
     <div>
         <h2>Créer un ticket</h2>
-        <button type="submit"><a href="">Télécharger fichier</a></button>
-        <button type="submit"><a href="">Envoyer</a></button>
+        <form action="{% url 'apps:ticket' %}" method="POST">
+            {% csrf_token %}
+            {{ TForm.as_p }}
+            {{ RForm.as_p }}
+            <button type="submit">Créer un nouveau ticket</button>
+        </form>
     </div>
 {% endblock %}

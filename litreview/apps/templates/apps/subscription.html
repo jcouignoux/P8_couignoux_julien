@@ -2,6 +2,42 @@
 
 {% block content %}
     <div>
+        <h2>Suivre d'autres utilisateurs</h2>
+        <form action="{% url 'apps:subscription' %}" method="POST">
+            {% csrf_token %}
+            {{ UForm.as_p }}
+            <button type="submit" name="Envoyer">Envoyer</button>
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% else %}
+            pas d'erreur
+        {% endif %}
+    </div>
+    <div>
         <h2>Abonnements</h2>
+        {% if following_users %}
+            {% for following_user in following_users %}
+                <form action="{% url 'apps:subscription' %}" method="POST">
+                    {% csrf_token %}
+                    {{ following_user.followed_user }}
+                    <button type="submit">Désabonner</button>
+                </form>
+            {% endfor %}
+        {% else %}
+            Vous ne suivez personne
+        {% endif %}
+    </div>
+    <div>
+        <h2>Abonnés</h2>
+        {% if followed_users %}
+            {% for followed_user in followed_users %}
+                {{ followed_user.username }}
+            {% endfor %}
+            {% else %}
+                Vous n êtes suivi par personne
+            {% endif %}
     </div>
 {% endblock %}

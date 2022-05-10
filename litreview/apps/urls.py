@@ -9,6 +9,7 @@ urlpatterns = [
     path('login', views.connexion, name="login"),
     path('logout', views.deconnexion, name="logout"),
     path('flux', views.flux, name="flux"),
+    path('posts', views.posts, name="posts"),
     path('subscription', views.subscription, name="subscription"),
-    path('post', views.post, name="post"),
+    path('ticket', views.ticket, name="ticket"),
 ]

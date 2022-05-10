@@ -1,14 +1,41 @@
-from django.forms import ModelForm
-from django.forms.widgets import PasswordInput, TextInput, EmailInput
+from django.forms import ModelForm, modelformset_factory, Form, CharField
+from django.forms.widgets import TextInput, Textarea, FileInput, Select
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UsernameField, AuthenticationForm
 
 
-class UserForm(ModelForm):
+from apps.models import Ticket, Review
+
+
+class TicketForm(ModelForm):
     class Meta:
-        model = User
-        fields = ['username', 'password', 'email']
+        model = Ticket
+        fields = ['title', 'description', 'image']
         widgets = {
-            'username': TextInput(attrs={'placeholder': "Nom d'utilisateur"}),
-            'password': PasswordInput(attrs={'placeholder': "Mot de Passe"}),
-            'email': EmailInput(attrs={'placeholder': "Email"}),
+            'title': TextInput(attrs={'placeholder': "Titre"}),
+            'description': Textarea(attrs={'placeholder': "Description", "rows": 5, "cols": 20}),
+            'image': FileInput(attrs={'placeholder': "Image"}),
         }
+
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'headline', 'body']
+        widgets = {
+            'rating': TextInput(attrs={'placeholder': "Note"}),
+            'headline': TextInput(attrs={'placeholder': "Titre"}),
+            'body': Textarea(attrs={'placeholder': "Commentaire", "rows": 5, "cols": 20}),
+        }
+
+
+class UsersForm(Form):
+    username = CharField(widget=TextInput(
+        attrs={'placeholder': "Entrez un username"}))
+    # USER_CHOICES = User.objects.all()
+    # follow_user = CharField(label='Qui voulez-vous suivre ?',
+    #                         widget=Select(choices=USER_CHOICES))
+
+
+UsersFormSet = modelformset_factory(
+    User, form=UsernameField, fields=('username',), extra=1)

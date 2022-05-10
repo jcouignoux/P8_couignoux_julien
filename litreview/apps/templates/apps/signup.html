@@ -11,7 +11,7 @@
             <button type="submit"><a href="{% url 'apps:index' %}">Retourner</a></button>
             {% if messages %}
                 {% for message in messages %}
-                    {{ messages }}
+                    {{ message }}
                 {% endfor %}
             {% else %}
                 pas d'erreur

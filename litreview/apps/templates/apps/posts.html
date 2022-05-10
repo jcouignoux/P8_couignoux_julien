@@ -2,11 +2,7 @@
 
 {% block content %}
     <div>
-        <h2>Flux</h2>
-        <button type="submit"><a href="">Demander une critique</a></button>
-        <button type="submit"><a href="">Créer une critique</a></button>
-    </div>
-    <div>
+        <h2>Vos posts</h2>
         {% for ticket in tickets %}
             <p>{{ ticket.title }}</p>
             <p>{{ ticket.description }}</p>
