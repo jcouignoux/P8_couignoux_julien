@@ -3,11 +3,18 @@
 {% block content %}
         <div>
             <h2>Inscrivez-vous<h2>
-            <form action="{% url 'apps:login' %}" method="POST">
+            <form action="{% url 'apps:signup' %}" method="POST">
                 {% csrf_token %}
                 {{ UForm.as_p }}
-                <button type="submit"><a href="{% url 'apps:index' %}">Retourner</a></button>
                 <button type="submit">S'inscrire</button>
             </form>
+            <button type="submit"><a href="{% url 'apps:index' %}">Retourner</a></button>
+            {% if messages %}
+                {% for message in messages %}
+                    {{ messages }}
+                {% endfor %}
+            {% else %}
+                pas d'erreur
+            {% endif %}
         </div>
 {% endblock %}
