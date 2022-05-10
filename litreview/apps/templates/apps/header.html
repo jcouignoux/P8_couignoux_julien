@@ -1,5 +1,6 @@
 {% load static %}
 
+<link rel="icon" type="image/png" sizes="96x96" href="{% static 'apps/assets/favicon.ico' %}" />
 <a href="{% url 'apps:index' %}"><img src="{% static 'apps/assets/logo.png' %}" alt="..." /></a>
 <h1>LITReview</h1>
 {% if user.is_authenticated %}
