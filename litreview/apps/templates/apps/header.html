@@ -1,0 +1,15 @@
+{% load static %}
+
+<a href="{% url 'apps:index' %}"><img src="{% static 'apps/assets/logo.png' %}" alt="..." /></a>
+<h1>LITReview</h1>
+{% if user.is_authenticated %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'apps:flux' %}">Flux</a></li>
+            <li><a href="{% url 'apps:post' %}">Posts</a></li>
+            <li><a href="{% url 'apps:subscription' %}">Abonnements</a></li>
+            <li><a href="{% url 'apps:logout' %}">Se déconnecter</a></li>
+            <li>{{ user.username }}</li>
+        </ul>
+    </nav>
+{% endif %}

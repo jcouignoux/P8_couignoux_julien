@@ -1,0 +1,13 @@
+{% extends 'apps/base.html' %}
+
+{% block content %}
+        <div>
+            <h2>Inscrivez-vous<h2>
+            <form action="{% url 'apps:login' %}" method="POST">
+                {% csrf_token %}
+                {{ UForm.as_p }}
+                <button type="submit"><a href="{% url 'apps:index' %}">Retourner</a></button>
+                <button type="submit">S'inscrire</button>
+            </form>
+        </div>
+{% endblock %}
