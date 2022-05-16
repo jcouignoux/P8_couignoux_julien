@@ -1,14 +1,17 @@
-from django.shortcuts import render, redirect
+import re
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.db.models import Q
 
 
-from apps.forms import TicketForm, ReviewForm, UsersFormSet, UsersForm
-from apps.models import Ticket, UserFollows
+from apps.forms import TicketForm, ReviewForm, UsersForm
+from apps.models import Ticket, Review, UserFollows
+from apps.post import get_all_posts
 # Create your views here.
 
 
@@ -25,8 +28,11 @@ def flux(request):
 
     context = {}
 
-    tickets_list = Ticket.objects.all().order_by('-time_created')
-    context['tickets'] = tickets_list
+    RForm = ReviewForm(request.POST or None)
+    posts_list = get_all_posts
+
+    context['posts'] = posts_list
+    context['RForm'] = RForm
 
     return render(request, 'apps/flux.html', context)
 
@@ -35,7 +41,6 @@ def flux(request):
 def posts(request):
 
     context = {}
-
     tickets_list = Ticket.objects.filter(user=request.user)
     context['tickets'] = tickets_list
 
@@ -60,6 +65,7 @@ def subscription(request):
             else:
                 error_message = "Username inconnu."
                 messages.error(request, error_message)
+        errors = UForm.errors or None
 
     UForm = UsersForm()
     following_users = UserFollows.objects.filter(user=request.user)
@@ -73,7 +79,46 @@ def subscription(request):
 
 
 @login_required
-def ticket(request):
+def create_ticket(request):
+
+    context = {}
+
+    TForm = TicketForm(request.POST or None)
+    if request.method == "POST":
+        if TForm.is_valid():
+            ticket = TForm.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+
+    context['TForm'] = TForm
+    # tickets_list = Ticket.objects.filter(user=request.user)
+    # context['tickets'] = tickets_list
+
+    return render(request, 'apps/ticket.html', context)
+
+
+@login_required
+def add_review(request):
+
+    context = {}
+
+    RForm = ReviewForm(request.POST or None)
+    if request.method == "POST":
+        if RForm.is_valid():
+            ticket_id = request.POST.get('post_id')
+            ticket = get_object_or_404(Ticket, pk=ticket_id)
+            review = RForm.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+
+    context['RForm'] = RForm
+
+    return redirect(reverse('apps:flux'))
+
+
+@login_required
+def create_review(request):
 
     context = {}
 
@@ -91,10 +136,8 @@ def ticket(request):
 
     context['TForm'] = TForm
     context['RForm'] = RForm
-    tickets_list = Ticket.objects.filter(user=request.user)
-    context['tickets'] = tickets_list
 
-    return render(request, 'apps/ticket.html', context)
+    return render(request, 'apps/review.html', context)
 
 
 def connexion(request):
@@ -113,6 +156,7 @@ def connexion(request):
             else:
                 error_message = "Identifiant ou mot de passe incorrect."
                 messages.error(request, error_message)
+        context['AForm'] = AForm
     else:
         AForm = AuthenticationForm(request)
         context['AForm'] = AForm

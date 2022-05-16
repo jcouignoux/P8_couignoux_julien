@@ -1,4 +1,4 @@
-from django.forms import ModelForm, modelformset_factory, Form, CharField
+from django.forms import ModelForm, modelformset_factory, Form, ModelChoiceField
 from django.forms.widgets import TextInput, Textarea, FileInput, Select
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UsernameField, AuthenticationForm
@@ -30,12 +30,5 @@ class ReviewForm(ModelForm):
 
 
 class UsersForm(Form):
-    username = CharField(widget=TextInput(
-        attrs={'placeholder': "Entrez un username"}))
-    # USER_CHOICES = User.objects.all()
-    # follow_user = CharField(label='Qui voulez-vous suivre ?',
-    #                         widget=Select(choices=USER_CHOICES))
-
-
-UsersFormSet = modelformset_factory(
-    User, form=UsernameField, fields=('username',), extra=1)
+    username = ModelChoiceField(
+        queryset=User.objects.filter(groups__name='Community'))

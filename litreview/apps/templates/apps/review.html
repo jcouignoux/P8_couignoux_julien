@@ -1,8 +1,15 @@
 {% extends 'apps/base.html' %}
 
+{% load bootstrap5 %}
+
 {% block content %}
     <div>
         <h2>Créer une critique</h2>
-        <button type="submit"><a href="">Télécharger fichier</a></button>
-        <button type="submit"><a href="">Envoyer</a></button>
+        <form class="form" action="{% url 'apps:create_review' %}" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form TForm %}
+            {% bootstrap_form RForm %}
+            <button class="btn btn-primary" type="submit">Envoyer</button>
+        </form>
     </div>
+{% endblock %}

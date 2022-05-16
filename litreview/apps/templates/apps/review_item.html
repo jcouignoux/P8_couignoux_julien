@@ -1,0 +1,18 @@
+{% load bootstrap5 %}
+
+
+<div class="card mb-3" style="max-width: 18rem;">
+    <div class="card-header bg-transparent">
+        {{ post.user.username }} a publié une critique - {{ post.time_created }}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">
+            <p>{{ post.headline }} - {{ post.rating}}</p>
+                <p>{{ post.body }}</p>
+        </p>
+    </div>
+    <div class="card-footer bg-transparent">
+        {% include 'apps/ticket_item.html' with post=post.ticket %}
+    </div>
+</div>

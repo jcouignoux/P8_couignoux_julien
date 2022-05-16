@@ -1,23 +1,19 @@
 {% extends 'apps/base.html' %}
+{% load bootstrap5 %}
 
 {% block content %}
     <div>
         <h2>Flux</h2>
-        <button type="submit"><a href="">Demander une critique</a></button>
-        <button type="submit"><a href="">Créer une critique</a></button>
+        <button type="submit" href="{% url 'apps:create_ticket' %}">Demander une critique</button>
+        <button type="submit" href="{% url 'apps:create_review' %}">Créer une critique</button>
     </div>
     <div>
-        {% for ticket in tickets %}
-            <p>{{ ticket.title }}</p>
-            <p>{{ ticket.description }}</p>
-            <p>{{ ticket.image }}</p>
-            <p>{{ ticket.time_created }}</p>
-            {% for review in ticket.get_reviews %}
-                <p>{{ review.headline }}</p>
-                <p>{{ review.rating }}</p>
-                <p>{{ review.body }}</p>
-                <p>{{ review.time_created }}</p>
-            {% endfor %}
+        {% for post in posts %}
+            {% if 'Ticket' in post.class_name %}
+                {% include 'apps/ticket_item.html' with post=post %}
+            {% elif 'Review' in post.class_name %}
+                {% include 'apps/review_item.html' with post=post %}
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

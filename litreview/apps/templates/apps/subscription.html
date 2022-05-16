@@ -6,7 +6,7 @@
         <form action="{% url 'apps:subscription' %}" method="POST">
             {% csrf_token %}
             {{ UForm.as_p }}
-            <button type="submit" name="Envoyer">Envoyer</button>
+            <button class="btn btn-primary" type="submit" name="Envoyer">Envoyer</button>
         </form>
         {% if messages %}
             {% for message in messages %}
@@ -20,8 +20,9 @@
             {% for following_user in following_users %}
                 <form action="{% url 'apps:subscription' %}" method="POST">
                     {% csrf_token %}
+                    <input type="hidden" name="followed_user_id" value="{{ following_user.followed_user.id }}">
                     {{ following_user.followed_user }}
-                    <button type="submit">Désabonner</button>
+                    <button class="btn btn-primary" type="submit" name="Desabonner">Désabonner</button>
                 </form>
             {% endfor %}
         {% else %}

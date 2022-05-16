@@ -1,13 +1,14 @@
 {% extends 'apps/base.html' %}
 
+{% load bootstrap5 %}
+
 {% block content %}
     <div>
         <h2>Créer un ticket</h2>
-        <form action="{% url 'apps:ticket' %}" method="POST">
+        <form class="form" action="{% url 'apps:create_review' %}" method="POST">
             {% csrf_token %}
-            {{ TForm.as_p }}
-            {{ RForm.as_p }}
-            <button type="submit">Créer un nouveau ticket</button>
+            {% bootstrap_form TForm %}
+            <button class="btn btn-primary" type="submit">Envoyer</button>
         </form>
     </div>
 {% endblock %}

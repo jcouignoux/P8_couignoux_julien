@@ -1,17 +1,19 @@
 {% extends 'apps/base.html' %}
 
+{% load bootstrap5 %}
+
 {% block content %}
     <div class="container">
         <div>
-            <h2>Inscrivez-vous maintenant<h2>
-            <button type="submit"><a href="{% url 'apps:signup' %}">S'inscrire</a></button>
+            Inscrivez-vous maintenant
+            <button class="btn btn-primary" type="submit" href="{% url 'apps:signup' %}">S'inscrire</button>
         </div>
         <div>
-            <h2>Connectez-vous<h2>
-                <form action="{% url 'apps:login' %}" method="POST">
+            Connectez-vous
+                <form class="form" action="{% url 'apps:login' %}" method="POST">
                     {% csrf_token %}
-                    {{ AForm.as_p }}
-                    <button type="submit">Se connecter</button>
+                    {% bootstrap_form AForm %}
+                    <button class="btn btn-primary" type="submit">Se connecter</button>
                 </form>
             {% if messages %}
                 {{ message }}
