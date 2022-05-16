@@ -6,20 +6,12 @@ header {
         justify-content: space-around;
 }
 
-nav {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-}
-
 html,
 body {
     height: 100%;
 }
 
-.container {
+/* .container {
     display: flex;
     justify-content: space-around;
-}
+} */
