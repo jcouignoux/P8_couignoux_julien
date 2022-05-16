@@ -13,8 +13,6 @@
                 {{ message }}
             {% endfor %}
         {% endif %}
-    </div>
-    <div>
         <h2>Abonnements</h2>
         {% if following_users %}
             {% for following_user in following_users %}
@@ -28,8 +26,6 @@
         {% else %}
             Vous ne suivez personne
         {% endif %}
-    </div>
-    <div>
         <h2>Abonnés</h2>
         {% if followed_users %}
             {% for followed_user in followed_users %}

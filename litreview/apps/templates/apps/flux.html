@@ -6,8 +6,6 @@
         <h2>Flux</h2>
         <button type="submit" href="{% url 'apps:create_ticket' %}">Demander une critique</button>
         <button type="submit" href="{% url 'apps:create_review' %}">Créer une critique</button>
-    </div>
-    <div>
         {% for post in posts %}
             {% if 'Ticket' in post.class_name %}
                 {% include 'apps/ticket_item.html' with post=post %}
