@@ -1,7 +1,7 @@
 {% load bootstrap5 %}
 
 
-<div class="card mb-3" style="max-width: 18rem;">
+<div class="card mb-3" style="max-width: 32rem;">
     <div class="card-header bg-transparent">
         {{ post.user.username }} a demandé une critique - {{ post.time_created }}
     </div>
@@ -11,13 +11,20 @@
             {{ post.description}}
             {{ post.image }}
         </p>
+        {% if post.user == user %}
+            <form class="form" action="{% url 'apps:update_ticket' post.id %}" method="GET">
+                {% csrf_token %}
+                <input type="hidden" name="ticket_id" value="{{ post.id }}">
+                <button class="btn btn-primary">Modifier la demande de critique</button>
+            </form>
+        {% endif %}
     </div>
     <div class="card-footer bg-transparent">
         {% if not post.has_reviews %}
             <div class="accordion accordion-flush" id="ReviewAccordionFlush{{ post.id }}">
                 <h2 class="accordion-header" id="flush-heading{{ post.id }}">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ post.id }}" aria-expanded="false" aria-controls="flush-collapse{{ post.id }}">
-                        Créer une critique
+                        Ajouter une critique
                     </button>
                 </h2>
                 <div id="flush-collapse{{ post.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ post.id }}" data-bs-parent="#ReviewccordionFlush{{ post.id }}">
@@ -26,14 +33,14 @@
                             {% csrf_token %}
                             <input type="hidden" name="post_id" value="{{ post.id }}">
                             {% bootstrap_form RForm %}
-                            <button class="btn btn-primary" type="submit">Créer une critique</button>
+                            <button class="btn btn-primary" type="submit">Envoyer</button>
                         </form>
                     </div>
                 </div>
             </div>
         {% else %}
             {% for review in post.get_reviews %}
-                <p>{{ review.user.username }} a publié une critqie le {{ review.time_created }}</p>
+                <p>{{ review.user.username }} a publié une critique le {{ review.time_created }}</p>
             {% endfor %}
         {% endif %}
     </div>

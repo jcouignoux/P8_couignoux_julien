@@ -4,19 +4,17 @@
 
 {% block content %}
         <div>
-            <h2>Inscrivez-vous<h2>
+            Inscrivez-vous
             <form class="form" action="{% url 'apps:signup' %}" method="POST">
                 {% csrf_token %}
                 {% bootstrap_form UForm %}
                 <button  class="btn btn-primary" type="submit">S'inscrire</button>
             </form>
-            <button class="btn btn-primary" type="submit"><a href="{% url 'apps:index' %}">Retourner</a></button>
+            <a href="{% url 'apps:index' %}"><button class="btn btn-primary">Retourner</button></a>
             {% if messages %}
                 {% for message in messages %}
                     {{ message }}
                 {% endfor %}
-            {% else %}
-                pas d'erreur
             {% endif %}
         </div>
 {% endblock %}

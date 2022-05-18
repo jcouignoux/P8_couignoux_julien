@@ -32,3 +32,6 @@ class ReviewForm(ModelForm):
 class UsersForm(Form):
     username = ModelChoiceField(
         queryset=User.objects.filter(groups__name='Community'))
+
+    # def __init__(self, *args, **kwargs):
+    #     pass

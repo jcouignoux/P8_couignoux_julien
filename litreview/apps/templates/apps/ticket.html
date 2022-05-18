@@ -4,11 +4,19 @@
 
 {% block content %}
     <div>
-        <h2>Créer un ticket</h2>
-        <form class="form" action="{% url 'apps:create_review' %}" method="POST">
+        <h2>{{ title }}</h2>
+        {% if title == 'Créer un ticket' %}
+            <form class="form" action="{% url 'apps:create_ticket' %}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form TForm %}
+                <button class="btn btn-primary" type="submit">Envoyer</button>
+            </form>
+        {% elif title == 'Modifier un ticket' %}
+        <form class="form" action="{% url 'apps:update_ticket' ticket.id %}" method="POST">
             {% csrf_token %}
             {% bootstrap_form TForm %}
             <button class="btn btn-primary" type="submit">Envoyer</button>
         </form>
+        {% endif %}
     </div>
 {% endblock %}

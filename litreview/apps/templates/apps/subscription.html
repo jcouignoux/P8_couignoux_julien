@@ -1,11 +1,13 @@
 {% extends 'apps/base.html' %}
 
+{% load bootstrap5 %}
+
 {% block content %}
     <div>
         <h2>Suivre d'autres utilisateurs</h2>
         <form action="{% url 'apps:subscription' %}" method="POST">
             {% csrf_token %}
-            {{ UForm.as_p }}
+            {% bootstrap_form UForm %}
             <button class="btn btn-primary" type="submit" name="Envoyer">Envoyer</button>
         </form>
         {% if messages %}
@@ -16,7 +18,7 @@
         <h2>Abonnements</h2>
         {% if following_users %}
             {% for following_user in following_users %}
-                <form action="{% url 'apps:subscription' %}" method="POST">
+                <form action="{% url 'apps:unsubscription' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="followed_user_id" value="{{ following_user.followed_user.id }}">
                     {{ following_user.followed_user }}

@@ -1,7 +1,7 @@
 {% load bootstrap5 %}
 
 
-<div class="card mb-3" style="max-width: 18rem;">
+<div class="card mb-3" style="max-width: 32rem;">
     <div class="card-header bg-transparent">
         {{ post.user.username }} a publié une critique - {{ post.time_created }}
     </div>
@@ -11,6 +11,14 @@
             <p>{{ post.headline }} - {{ post.rating}}</p>
                 <p>{{ post.body }}</p>
         </p>
+        {% if post.user == user %}
+            <form class="form" action="{% url 'apps:update_review' post.id %}" method="GET">
+                {% csrf_token %}
+                <input type="hidden" name="review_id" value="{{ post.id }}">
+                <input type="hidden" name="ticket_id" value="{{ post.ticket.id }}">
+                <button class="btn btn-primary">Modifier la critique</button>
+            </form>
+        {% endif %}
     </div>
     <div class="card-footer bg-transparent">
         {% include 'apps/ticket_item.html' with post=post.ticket %}

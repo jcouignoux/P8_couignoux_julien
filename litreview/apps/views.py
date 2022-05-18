@@ -29,7 +29,7 @@ def flux(request):
     context = {}
 
     RForm = ReviewForm(request.POST or None)
-    posts_list = get_all_posts
+    posts_list = get_all_posts('all')
 
     context['posts'] = posts_list
     context['RForm'] = RForm
@@ -41,8 +41,11 @@ def flux(request):
 def posts(request):
 
     context = {}
-    tickets_list = Ticket.objects.filter(user=request.user)
-    context['tickets'] = tickets_list
+
+    RForm = ReviewForm(request.POST or None)
+    posts_list = get_all_posts(user=request.user)
+    context['posts'] = posts_list
+    context['RForm'] = RForm
 
     return render(request, 'apps/posts.html', context)
 
@@ -79,9 +82,23 @@ def subscription(request):
 
 
 @login_required
+def unsubscription(request):
+
+    if request.method == "POST":
+        followed_user_id = request.POST.get('followed_user_id')
+        followed_user = get_object_or_404(User, pk=followed_user_id)
+        if followed_user:
+            UserFollows.objects.filter(
+                user=request.user, followed_user=followed_user).delete()
+
+    return redirect(reverse('apps:subscription'))
+
+
+@login_required
 def create_ticket(request):
 
     context = {}
+    context['title'] = 'Créer un ticket'
 
     TForm = TicketForm(request.POST or None)
     if request.method == "POST":
@@ -91,16 +108,37 @@ def create_ticket(request):
             ticket.save()
 
     context['TForm'] = TForm
-    # tickets_list = Ticket.objects.filter(user=request.user)
-    # context['tickets'] = tickets_list
+
+    return redirect(reverse('apps:flux'))
+
+
+@login_required
+def update_ticket(request, id):
+
+    context = {}
+    context['title'] = 'Modifier un ticket'
+    ticket = get_object_or_404(Ticket, pk=id)
+    context['ticket'] = ticket
+
+    if request.method == "POST":
+        TForm = TicketForm(request.POST, instance=ticket)
+        TForm.save()
+
+        return redirect(reverse('apps:posts'))
+
+    else:
+        TForm = TicketForm(instance=ticket)
+
+    context['TForm'] = TForm
 
     return render(request, 'apps/ticket.html', context)
 
 
-@login_required
+@ login_required
 def add_review(request):
 
     context = {}
+    context['title'] = 'Ajouter une critique'
 
     RForm = ReviewForm(request.POST or None)
     if request.method == "POST":
@@ -112,18 +150,55 @@ def add_review(request):
             review.user = request.user
             review.save()
 
+        return redirect(reverse('apps:flux'))
+
     context['RForm'] = RForm
 
-    return redirect(reverse('apps:flux'))
+    return render(request, 'apps/review.html', context)
 
 
-@login_required
+@ login_required
+def update_review(request, id):
+
+    context = {}
+    context['title'] = 'Modifier une critique'
+    review = get_object_or_404(Review, pk=id)
+    context['review'] = review
+    context['ticket'] = review.ticket
+
+    if request.method == "POST":
+        RForm = ReviewForm(request.POST, instance=review)
+        RForm.save()
+
+        return redirect(reverse('apps:posts'))
+    else:
+        RForm = ReviewForm(instance=review)
+
+    context['RForm'] = RForm
+
+    return render(request, 'apps/review.html', context)
+
+
+@ login_required
 def create_review(request):
 
     context = {}
+    context['title'] = 'Créer une critique'
+
+    if request.GET.get('review_id'):
+        review = get_object_or_404(Review, pk=request.GET.get('review_id'))
+        ticket = get_object_or_404(Ticket, pk=request.GET.get('ticket_id'))
+        review_initial = {
+            'rating': review.rating,
+            'headline': review.headline,
+            'body': review.body,
+        }
+        context['ticket'] = ticket
+    else:
+        review_initial = {}
 
     TForm = TicketForm(request.POST or None)
-    RForm = ReviewForm(request.POST or None)
+    RForm = ReviewForm(request.POST or None, initial=review_initial)
     if request.method == "POST":
         if TForm.is_valid() and RForm.is_valid():
             ticket = TForm.save(commit=False)
@@ -133,6 +208,7 @@ def create_review(request):
             review.ticket = ticket
             review.user = request.user
             review.save()
+        return redirect(reverse('apps:flux'))
 
     context['TForm'] = TForm
     context['RForm'] = RForm

@@ -3,17 +3,12 @@
 {% block content %}
     <div>
         <h2>Vos posts</h2>
-        {% for ticket in tickets %}
-            <p>{{ ticket.title }}</p>
-            <p>{{ ticket.description }}</p>
-            <p>{{ ticket.image }}</p>
-            <p>{{ ticket.time_created }}</p>
-            {% for review in ticket.get_reviews %}
-                <p>{{ review.headline }}</p>
-                <p>{{ review.rating }}</p>
-                <p>{{ review.body }}</p>
-                <p>{{ review.time_created }}</p>
-            {% endfor %}
+        {% for post in posts %}
+            {% if 'Ticket' in post.class_name %}
+                {% include 'apps/ticket_item.html' with post=post %}
+            {% elif 'Review' in post.class_name %}
+                {% include 'apps/review_item.html' with post=post %}
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
