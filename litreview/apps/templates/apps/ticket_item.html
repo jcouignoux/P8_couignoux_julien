@@ -9,7 +9,7 @@
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">
             {{ post.description}}
-            {{ post.image }}
+            <img src="/media/{{ post.image }}" alt="...">
         </p>
         {% if post.user == user %}
             <form class="form" action="{% url 'apps:update_ticket' post.id %}" method="GET">

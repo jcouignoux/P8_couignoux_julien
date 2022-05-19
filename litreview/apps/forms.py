@@ -1,8 +1,7 @@
-from django.forms import ModelForm, modelformset_factory, Form, ModelChoiceField
-from django.forms.widgets import TextInput, Textarea, FileInput, Select
+from django.forms import ModelForm, Form, ModelChoiceField, IntegerField, CharField
+from django.forms.widgets import TextInput, Textarea, FileInput, NumberInput
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UsernameField, AuthenticationForm
-
+from django_starfield import Stars
 
 from apps.models import Ticket, Review
 
@@ -23,7 +22,8 @@ class ReviewForm(ModelForm):
         model = Review
         fields = ['rating', 'headline', 'body']
         widgets = {
-            'rating': TextInput(attrs={'placeholder': "Note"}),
+            # 'rating': Stars(),
+            'rating': NumberInput(),
             'headline': TextInput(attrs={'placeholder': "Titre"}),
             'body': Textarea(attrs={'placeholder': "Commentaire", "rows": 5, "cols": 20}),
         }

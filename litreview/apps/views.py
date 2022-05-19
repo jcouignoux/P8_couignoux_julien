@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.db.models import Q
 
 
 from apps.forms import TicketForm, ReviewForm, UsersForm
@@ -107,9 +106,11 @@ def create_ticket(request):
             ticket.user = request.user
             ticket.save()
 
+        return redirect(reverse('apps:flux'))
+
     context['TForm'] = TForm
 
-    return redirect(reverse('apps:flux'))
+    return render(request, 'apps/ticket.html', context)
 
 
 @login_required
@@ -121,7 +122,7 @@ def update_ticket(request, id):
     context['ticket'] = ticket
 
     if request.method == "POST":
-        TForm = TicketForm(request.POST, instance=ticket)
+        TForm = TicketForm(request.POST, request.FILES, instance=ticket)
         TForm.save()
 
         return redirect(reverse('apps:posts'))
