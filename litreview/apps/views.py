@@ -99,14 +99,17 @@ def create_ticket(request):
     context = {}
     context['title'] = 'Créer un ticket'
 
-    TForm = TicketForm(request.POST or None)
+    TForm = TicketForm(request.POST, request.FILES)
     if request.method == "POST":
+        TForm = TicketForm(request.POST, request.FILES)
         if TForm.is_valid():
             ticket = TForm.save(commit=False)
             ticket.user = request.user
             ticket.save()
 
         return redirect(reverse('apps:flux'))
+    else:
+        TForm = TicketForm()
 
     context['TForm'] = TForm
 
@@ -229,7 +232,7 @@ def connexion(request):
                 request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(reverse('apps:index'))
+                return redirect(reverse('apps:flux'))
             else:
                 error_message = "Identifiant ou mot de passe incorrect."
                 messages.error(request, error_message)
