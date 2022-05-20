@@ -1,21 +1,21 @@
 {% load bootstrap5 %}
 
 
-<div class="card mb-3" style="max-width: 32rem;">
-    <div class="card-header bg-transparent">
-        {{ post.user.username }} a demandé une critique - {{ post.time_created }}
+<div class="card mb-3">
+    <div class="card-header">
+        <strong>{{ post.user.username }}</strong> a demandé une critique <span class="text-end blockquote-footer">{{ post.time_created }}</span>
     </div>
     <div class="card-body">
-        <h5 class="card-title">{{ post.title }}</h5>
-        <p class="card-text">
-            {{ post.description}}
+        <div class="card-title">{{ post.title }}</div>
+        <div class="card-text">
+            <p>{{ post.description}}</p>
             <img src="/media/{{ post.image }}" alt="...">
-        </p>
+        </div>
         {% if post.user == user %}
             <form class="form" action="{% url 'apps:update_ticket' post.id %}" method="GET">
                 {% csrf_token %}
                 <input type="hidden" name="ticket_id" value="{{ post.id }}">
-                <button class="btn btn-primary">Modifier la demande de critique</button>
+                <button class="btn">Modifier la demande de critique</button>
             </form>
         {% endif %}
     </div>

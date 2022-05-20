@@ -2,7 +2,7 @@
 
 {% block content %}
     <div>
-        <h2>Vos posts</h2>
+        <div class="title">Vos posts</div>
         {% for post in posts %}
             {% if 'Ticket' in post.class_name %}
                 {% include 'apps/ticket_item.html' with post=post %}

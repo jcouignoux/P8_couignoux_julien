@@ -3,38 +3,38 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div>
-        <h2>Suivre d'autres utilisateurs</h2>
-        <form action="{% url 'apps:subscription' %}" method="POST">
+    <div class="container-md align-self-center">
+        <div class="row title ">Suivre d'autres utilisateurs</div>
+        <form class="row row-cols-2 form-label" action="{% url 'apps:subscription' %}" method="POST">
             {% csrf_token %}
             {% bootstrap_form UForm %}
-            <button class="btn btn-primary" type="submit" name="Envoyer">Envoyer</button>
+            <button class="btn" type="submit" name="Envoyer">Envoyer</button>
         </form>
         {% if messages %}
             {% for message in messages %}
                 {{ message }}
             {% endfor %}
         {% endif %}
-        <h2>Abonnements</h2>
+        <div class="row title">Abonnements</div>
         {% if following_users %}
             {% for following_user in following_users %}
-                <form action="{% url 'apps:unsubscription' %}" method="POST">
+                <form  class="row row-cols-2 form-label" action="{% url 'apps:unsubscription' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="followed_user_id" value="{{ following_user.followed_user.id }}">
-                    {{ following_user.followed_user }}
-                    <button class="btn btn-primary" type="submit" name="Desabonner">Désabonner</button>
+                    <div>{{ following_user.followed_user }}</div>
+                    <button class="btn" type="submit" name="Desabonner">Désabonner</button>
                 </form>
             {% endfor %}
         {% else %}
-            Vous ne suivez personne
+            <div>Vous ne suivez personne</div>
         {% endif %}
-        <h2>Abonnés</h2>
+        <div class="row title">Abonnés</div>
         {% if followed_users %}
             {% for followed_user in followed_users %}
-                {{ followed_user.user }}
+                <div>{{ followed_user.user }}</div>
             {% endfor %}
             {% else %}
-                Vous n êtes suivi par personne
+                <div>Vous n êtes suivi par personne</div>
             {% endif %}
     </div>
 {% endblock %}
