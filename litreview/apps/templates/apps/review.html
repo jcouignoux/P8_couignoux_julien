@@ -4,28 +4,20 @@
 
 {% block content %}
     <div>
-        <h2>{{ title }}</h2>
+        <div class="title">{{ title }}</div>
         {% if title == 'Créer une critique' %}
-            <form class="form" action="{% url 'apps:create_review' %}" method="POST">
+            <form class="form form-label" action="{% url 'apps:create_review' %}" method="POST">
                 {% csrf_token %}
-                {% if ticket %}
-                    {% include 'apps/ticket_item.html' with post=ticket %}
-                {% else %}
-                    {% bootstrap_form TForm %}
-                {% endif %}
+                {% bootstrap_form TForm %}
                 {% bootstrap_form RForm %}
-                <button class="btn btn-primary" type="submit">Envoyer</button>
+                <button class="btn" type="submit">Envoyer</button>
             </form>
         {% elif title == 'Modifier une critique' %}
-            <form class="form" action="{% url 'apps:update_review' review.id %}" method="POST">
+            <form class="form form-label" action="{% url 'apps:update_review' review.id %}" method="POST">
                 {% csrf_token %}
-                {% if ticket %}
-                    {% include 'apps/ticket_item.html' with post=ticket %}
-                {% else %}
-                    {% bootstrap_form TForm %}
-                {% endif %}
+                {% include 'apps/ticket_item.html' with post=ticket %}
                 {% bootstrap_form RForm %}
-                <button class="btn btn-primary" type="submit">Envoyer</button>
+                <button class="btn" type="submit">Envoyer</button>
             </form>
         {% endif %}
     </div>

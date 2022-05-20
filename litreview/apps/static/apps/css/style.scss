@@ -1,0 +1,74 @@
+
+html,
+body {
+    height: 100%;
+    background-color: ivory;
+    .title {
+        font-size: 32px;
+    }
+}
+
+header {
+    img {
+        height: 300px;
+    }
+    .title {
+        font-size: 92px;
+    }
+}
+
+.table {
+    width: 600px;
+}
+
+.card {
+    width: 600px;
+    .card-header {
+        background: transparent;
+    }
+    .card-body {
+        background: transparent;
+        .card-title {
+            font-size: 24px;
+        }
+    }
+    .card-footer {
+        background: transparent;
+    }
+    img {
+        max-height: 200px;
+    }
+}
+
+.btn {
+    width: 250px;
+    height: 40px;
+    background: #f3f0f1;
+    position: relative;
+    background: #f3f0f1;
+    margin: 15px;
+    border-radius: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    span {
+        line-height: 100px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 32px;
+        font-weight: semibold;
+    }
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
+        6px 6px 10px rgba(0, 0, 0, 0.2);
+    color: #6f6cde;
+    &:hover {
+        opacity: 0.3;
+        box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
+            6px 6px 10px rgba(0, 0, 0, 0.2);
+    }
+    &:active {
+        opacity: 1;
+        box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5),
+            inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+        color: #79e3b6;
+    }
+}

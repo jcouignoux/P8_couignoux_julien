@@ -3,38 +3,49 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div class="container-md align-self-center">
-        <div class="row title ">Suivre d'autres utilisateurs</div>
-        <form class="row row-cols-2 form-label" action="{% url 'apps:subscription' %}" method="POST">
-            {% csrf_token %}
-            {% bootstrap_form UForm %}
-            <button class="btn" type="submit" name="Envoyer">Envoyer</button>
-        </form>
-        {% if messages %}
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-        {% endif %}
-        <div class="row title">Abonnements</div>
-        {% if following_users %}
-            {% for following_user in following_users %}
-                <form  class="row row-cols-2 form-label" action="{% url 'apps:unsubscription' %}" method="POST">
+    <div class="justify-content-center">
+        <table class="table table-sm">
+        <th colspan="2">Suivre d'autres utilisateurs</th>
+            <tr>
+                <form class="form" action="{% url 'apps:subscription' %}" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="followed_user_id" value="{{ following_user.followed_user.id }}">
-                    <div>{{ following_user.followed_user }}</div>
-                    <button class="btn" type="submit" name="Desabonner">Désabonner</button>
+                    <td class="col-6">{% bootstrap_form UForm show_label=False %}</td>
+                    <td class="col-6"><button type="submit" name="Envoyer">Envoyer</button></td>
                 </form>
-            {% endfor %}
-        {% else %}
-            <div>Vous ne suivez personne</div>
-        {% endif %}
-        <div class="row title">Abonnés</div>
-        {% if followed_users %}
-            {% for followed_user in followed_users %}
-                <div>{{ followed_user.user }}</div>
-            {% endfor %}
+            </tr>
+        </table>
+        <table class="table table-hover table-sm">
+            <th colspan="2">Abonnements</th>
+            <tbody>
+            {% if following_users %}
+                {% for following_user in following_users %}
+                    <tr>
+                    <form  class="form form-label" action="{% url 'apps:unsubscription' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="followed_user_id" value="{{ following_user.followed_user.id }}">
+                        <td class="col-6">{{ following_user.followed_user }}</td>
+                        <td class="col-6"><button type="submit" name="Desabonner">Désabonner</button></td>
+                    </form>
+                    </tr>
+                {% endfor %}
             {% else %}
-                <div>Vous n êtes suivi par personne</div>
+            <td>Vous ne suivez personne</td>
             {% endif %}
+            </tbody>
+        </table>
+        <table class="table table-hover table-sm">
+            <th>Abonnés</th>
+            <tbody>
+            {% if followed_users %}
+                {% for followed_user in followed_users %}
+                <tr>
+                    <td>{{ followed_user.user }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <td>Vous n êtes suivi par personne</td>
+            {% endif %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
