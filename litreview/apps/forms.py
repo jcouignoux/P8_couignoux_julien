@@ -21,12 +21,16 @@ class ReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = ['rating', 'headline', 'body']
+        # rating = IntegerField(widget=Stars)
         widgets = {
-            # 'rating': Stars(),
-            'rating': NumberInput(),
+            'rating': Stars(),
+            # 'rating': NumberInput(),
             'headline': TextInput(attrs={'placeholder': "Titre"}),
             'body': Textarea(attrs={'placeholder': "Commentaire", "rows": 5, "cols": 20}),
         }
+
+# class ReviewForm(Form):
+#     rating = IntegerField(widget=Stars)
 
 
 class UsersForm(Form):

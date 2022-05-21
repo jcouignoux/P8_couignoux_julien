@@ -4,7 +4,7 @@
 
 {% block content %}
     <div>
-        <div class="title">{{ title }}</div>
+        <div class="title">{{ title }}</h2>
         {% if title == 'Créer un ticket' %}
             <form class="form form-label" enctype="multipart/form-data" action="{% url 'apps:create_ticket' %}" method="POST">
                 {% csrf_token %}
@@ -12,7 +12,7 @@
                 <button class="btn" type="submit">Envoyer</button>
             </form>
         {% elif title == 'Modifier un ticket' %}
-        <form class="formform-label" enctype="multipart/form-data" action="{% url 'apps:update_ticket' ticket.id %}" method="POST">
+        <form class="form form-label" enctype="multipart/form-data" action="{% url 'apps:update_ticket' ticket.id %}" method="POST">
             {% csrf_token %}
             {% bootstrap_form TForm %}
             <button class="btn" type="submit">Envoyer</button>

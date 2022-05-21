@@ -1,4 +1,5 @@
 import re
+from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
@@ -26,9 +27,13 @@ def index(request):
 def flux(request):
 
     context = {}
-
-    RForm = ReviewForm(request.POST or None)
-    posts_list = get_all_posts('all')
+    # followed_users = list(UserFollows.objects.filter(user=request.user))
+    # users = [u.followed_user for u in followed_users]
+    users = [u.followed_user for u in UserFollows.objects.filter(
+        user=request.user)]
+    RForm = ReviewForm()
+    # posts_list = get_all_posts('all')
+    posts_list = get_all_posts(users)
 
     context['posts'] = posts_list
     context['RForm'] = RForm
@@ -42,7 +47,7 @@ def posts(request):
     context = {}
 
     RForm = ReviewForm(request.POST or None)
-    posts_list = get_all_posts(user=request.user)
+    posts_list = get_all_posts(users=[request.user])
     context['posts'] = posts_list
     context['RForm'] = RForm
 
@@ -55,19 +60,21 @@ def subscription(request):
     context = {}
 
     if request.method == "POST":
-        UForm = UsersForm(request.POST or None)
+        UForm = UsersForm(request.POST)
         if UForm.is_valid():
             username = UForm.cleaned_data['username']
             user = User.objects.filter(username=username).first()
-            if user:
-                userFollows = UserFollows()
-                userFollows.user = request.user
-                userFollows.followed_user = user
-                userFollows.save()
-            else:
-                error_message = "Username inconnu."
-                messages.error(request, error_message)
-        errors = UForm.errors or None
+            try:
+                if user:
+                    userFollows = UserFollows()
+                    userFollows.user = request.user
+                    userFollows.followed_user = user
+                    userFollows.save()
+                    success = str(userFollows.followed_user) + " ajouté."
+                    print(userFollows.followed_user)
+                    messages.success(request, success)
+            except Exception as e:
+                messages.error(request, e)
 
     UForm = UsersForm()
     following_users = UserFollows.objects.filter(user=request.user)
@@ -99,7 +106,6 @@ def create_ticket(request):
     context = {}
     context['title'] = 'Créer un ticket'
 
-    TForm = TicketForm(request.POST, request.FILES)
     if request.method == "POST":
         TForm = TicketForm(request.POST, request.FILES)
         if TForm.is_valid():
@@ -138,11 +144,21 @@ def update_ticket(request, id):
     return render(request, 'apps/ticket.html', context)
 
 
+@login_required
+def delete_ticket(request, id):
+
+    ticket = get_object_or_404(Ticket, pk=id)
+
+    if request.method == "POST":
+        ticket.delete()
+
+    return redirect(reverse('apps:posts'))
+
+
 @ login_required
 def add_review(request):
 
     context = {}
-    context['title'] = 'Ajouter une critique'
 
     RForm = ReviewForm(request.POST or None)
     if request.method == "POST":
@@ -162,6 +178,18 @@ def add_review(request):
 
 
 @ login_required
+def view_review(request, id):
+
+    context = {}
+    RForm = ReviewForm()
+    review = get_object_or_404(Review, pk=id)
+    context['post'] = review
+    context['RForm'] = RForm
+
+    return render(request, 'apps/review_item.html', context)
+
+
+@ login_required
 def update_review(request, id):
 
     context = {}
@@ -171,7 +199,7 @@ def update_review(request, id):
     context['ticket'] = review.ticket
 
     if request.method == "POST":
-        RForm = ReviewForm(request.POST, instance=review)
+        RForm = ReviewForm(request.POST)
         RForm.save()
 
         return redirect(reverse('apps:posts'))
@@ -189,21 +217,9 @@ def create_review(request):
     context = {}
     context['title'] = 'Créer une critique'
 
-    if request.GET.get('review_id'):
-        review = get_object_or_404(Review, pk=request.GET.get('review_id'))
-        ticket = get_object_or_404(Ticket, pk=request.GET.get('ticket_id'))
-        review_initial = {
-            'rating': review.rating,
-            'headline': review.headline,
-            'body': review.body,
-        }
-        context['ticket'] = ticket
-    else:
-        review_initial = {}
-
-    TForm = TicketForm(request.POST or None)
-    RForm = ReviewForm(request.POST or None, initial=review_initial)
     if request.method == "POST":
+        TForm = TicketForm(request.POST, request.FILES)
+        RForm = ReviewForm(request.POST)
         if TForm.is_valid() and RForm.is_valid():
             ticket = TForm.save(commit=False)
             ticket.user = request.user
@@ -213,11 +229,25 @@ def create_review(request):
             review.user = request.user
             review.save()
         return redirect(reverse('apps:flux'))
+    else:
+        TForm = TicketForm()
+        RForm = ReviewForm()
 
     context['TForm'] = TForm
     context['RForm'] = RForm
 
     return render(request, 'apps/review.html', context)
+
+
+@login_required
+def delete_review(request, id):
+
+    review = get_object_or_404(Review, pk=id)
+
+    if request.method == "POST":
+        review.delete()
+
+    return redirect(reverse('apps:posts'))
 
 
 def connexion(request):

@@ -3,14 +3,15 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div class="justify-content-center">
-        <table class="table table-sm">
-        <th colspan="2">Suivre d'autres utilisateurs</th>
+    <div class="cont justify-content-center">
+        <table class="table table-md">
+        <th colspan="3">Suivre d'autres utilisateurs</th>
             <tr>
                 <form class="form" action="{% url 'apps:subscription' %}" method="POST">
                     {% csrf_token %}
-                    <td class="col-6">{% bootstrap_form UForm show_label=False %}</td>
-                    <td class="col-6"><button type="submit" name="Envoyer">Envoyer</button></td>
+                    <td class="col-5">{% bootstrap_form UForm show_label=False %}</td>
+                    <td class="col-5"><button type="submit" name="Envoyer">Envoyer</button></td>
+                    <td class="col-2">{% include 'apps/messages.html' %}</td>
                 </form>
             </tr>
         </table>
@@ -23,8 +24,8 @@
                     <form  class="form form-label" action="{% url 'apps:unsubscription' %}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="followed_user_id" value="{{ following_user.followed_user.id }}">
-                        <td class="col-6">{{ following_user.followed_user }}</td>
-                        <td class="col-6"><button type="submit" name="Desabonner">Désabonner</button></td>
+                        <td class="col-5">{{ following_user.followed_user }}</td>
+                        <td class="col-7"><button type="submit" name="Desabonner">Désabonner</button></td>
                     </form>
                     </tr>
                 {% endfor %}

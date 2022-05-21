@@ -17,22 +17,17 @@ header {
     }
 }
 
+.cont {
+    width: 700px;
+}
+
 .table {
     width: 600px;
 }
 
 .card {
-    width: 600px;
+    max-width: 100%;
     .card-header {
-        background: transparent;
-    }
-    .card-body {
-        background: transparent;
-        .card-title {
-            font-size: 24px;
-        }
-    }
-    .card-footer {
         background: transparent;
     }
     img {

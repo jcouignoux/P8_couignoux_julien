@@ -2,7 +2,7 @@
 
 {% block content %}
     <div>
-        <div class="title">Flux</div>
+        <div class="cont title">Flux</div>
             <a href="{% url 'apps:create_ticket' %}"><button class="btn">Demander une critique</button></a>
             <a href="{% url 'apps:create_review' %}"><button class="btn">Créer une critique</button></a>
         {% for post in posts %}
