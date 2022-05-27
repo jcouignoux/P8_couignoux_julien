@@ -1,0 +1,24 @@
+{% load bootstrap5 %}
+
+<div class="accordion" id="accordion{{ post.id }}">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ post.id }}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ post.id }}" aria-expanded="true" aria-controls="collapse{{ post.id }}">
+                Ajouter une critique
+            </button>
+        </h2>
+        <div id="collapse{{ post.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ post.id }}" data-bs-parent="#accordion{{ post.id }}">
+            <div class="accordion-body">
+                <form class="form" action="{% url 'apps:add_review' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    {% bootstrap_field RForm.headline %}
+                    {% bootstrap_field RForm.body %}
+                    <input id='test{{ post.id }}' type="hidden" name="val_star" value="">
+                    {% include 'apps/star-rating.html' with post=post %}
+                    <button class="btn" type="submit">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

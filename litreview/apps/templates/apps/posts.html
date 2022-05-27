@@ -3,12 +3,17 @@
 {% block content %}
     <div>
         <div class="cont title">Vos posts</div>
-        {% for post in posts %}
-            {% if 'Ticket' in post.class_name %}
-                {% include 'apps/ticket_item.html' with post=post %}
-            {% elif 'Review' in post.class_name %}
-                {% include 'apps/review_item.html' with post=post %}
-            {% endif %}
-        {% endfor %}
+        {% include 'apps/messages.html' %}
+        {% if posts %}
+            {% for post in posts %}
+                {% if 'Ticket' in post.class_name %}
+                    {% include 'apps/ticket_item.html' with post=post %}
+                {% elif 'Review' in post.class_name %}
+                    {% include 'apps/review_item.html' with post=post %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            Vous n'avez publié aucune critique.
+        {% endif %}
     </div>
 {% endblock %}

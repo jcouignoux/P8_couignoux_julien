@@ -18,41 +18,29 @@
                 <form class="form" action="{% url 'apps:update_ticket' post.id %}" method="GET">
                     {% csrf_token %}
                     <input type="hidden" name="ticket_id" value="{{ post.id }}">
-                    <button class="btn">Modifier la demande de critique</button>
+                    <button class="btn">Modifier le ticket</button>
                 </form>
                 <form class="form" action="{% url 'apps:delete_ticket' post.id %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="ticket_id" value="{{ post.id }}">
-                    <button class="btn">Supprimer la demande de critique</button>
+                    <button class="btn">Supprimer le ticket</button>
                 </form>
             </div>
         {% endif %}
-        <ul class="list-group list-group-flush">
-        {% for review in post.get_reviews %}
-            <a data-bs-toggle="modal" data-bs-target="#Modal{{ review.id }}">
-                {{ review.user.username }} a publié une critique le {{ review.time_created }}
-            </a>
-            {% include 'apps/post_modal.html' with post=review %}
-        {% endfor %}
-        </ul>
+        {% if title != 'Modifier une critique' %}
+            <ul class="list-group">
+            {% for review in post.get_reviews %}
+                <a data-bs-toggle="modal" data-bs-target="#Modal{{ review.id }}">
+                    {{ review.user.username }} a publié une critique le {{ review.time_created }}
+                </a>
+                {% include 'apps/post_modal.html' with post=review %}
+            {% endfor %}
+            </ul>
+        {% endif %}
     </div>
-    <div class="card-footer">
-        <div class="accordion accordion-flush" id="ReviewAccordionFlush{{ post.id }}">
-            <h2 class="accordion-header" id="flush-heading{{ post.id }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ post.id }}" aria-expanded="false" aria-controls="flush-collapse{{ post.id }}">
-                    Ajouter une critique
-                </button>
-            </h2>
-            <div id="flush-collapse{{ post.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ post.id }}" data-bs-parent="#ReviewccordionFlush{{ post.id }}">
-                <div class="accordion-body">
-                    <form class="form" action="{% url 'apps:add_review' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="post_id" value="{{ post.id }}">
-                        {% bootstrap_form RForm %}
-                        <button class="btn" type="submit">Envoyer</button>
-                    </form>
-                </div>
-            </div>
+    {% if title != 'Modifier une critique' %}
+        <div class="card-footer">
+            {% include 'apps/post-accordion.html' with post=post %}
         </div>
-    </div>
-</div>
+    {% endif %}
+</div>        

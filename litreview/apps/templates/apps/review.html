@@ -6,17 +6,23 @@
     <div>
         <div class="title">{{ title }}</div>
         {% if title == 'Créer une critique' %}
-            <form class="form form-label" action="{% url 'apps:create_review' %}" method="POST">
+            <form class="form form-label" enctype="multipart/form-data" action="{% url 'apps:create_review' %}" method="POST">
                 {% csrf_token %}
-                {% bootstrap_form TForm %}
-                {% bootstrap_form RForm %}
+                {% bootstrap_form TForm show_label=False %}
+                {% bootstrap_field RForm.headline show_label=False %}
+                {% bootstrap_field RForm.body show_label=False %}
+                <input id='test' type="hidden" name="val_star" value="">
+                {% include 'apps/star-rating.html' %}
                 <button class="btn" type="submit">Envoyer</button>
             </form>
         {% elif title == 'Modifier une critique' %}
             <form class="form form-label" action="{% url 'apps:update_review' review.id %}" method="POST">
                 {% csrf_token %}
                 {% include 'apps/ticket_item.html' with post=ticket %}
-                {% bootstrap_form RForm %}
+                {% bootstrap_field RForm.headline show_label=False %}
+                {% bootstrap_field RForm.body show_label=False %}
+                <input id='test' type="hidden" name="val_star" value="{{ RForm.rating.value }}">
+                {% include 'apps/star-rating.html' with rating=RForm.rating.value %}
                 <button class="btn" type="submit">Envoyer</button>
             </form>
         {% endif %}

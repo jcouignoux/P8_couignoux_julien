@@ -1,0 +1,8 @@
+<div class="col star-block" id="star-block{{ post.id }}">
+    <span class="fa fa-refresh star-btn" id="zero{{ post.id }}"></span>
+    <span class="fa fa-star star-btn {% if rating >= 1 %}checked{% endif %}" id="first{{ post.id }}"></span>
+    <span class="fa fa-star star-btn {% if rating >= 2 %}checked{% endif %}" id="second{{ post.id }}"></span>
+    <span class="fa fa-star star-btn {% if rating >= 3 %}checked{% endif %}" id="third{{ post.id }}"></span>
+    <span class="fa fa-star star-btn {% if rating >= 4 %}checked{% endif %}" id="fourth{{ post.id }}"></span>
+    <span class="fa fa-star star-btn {% if rating >= 5 %}checked{% endif %}" id="fifth{{ post.id }}"></span>
+</div>

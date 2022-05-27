@@ -27,12 +27,10 @@ def index(request):
 def flux(request):
 
     context = {}
-    # followed_users = list(UserFollows.objects.filter(user=request.user))
-    # users = [u.followed_user for u in followed_users]
+
     users = [u.followed_user for u in UserFollows.objects.filter(
         user=request.user)]
     RForm = ReviewForm()
-    # posts_list = get_all_posts('all')
     posts_list = get_all_posts(users)
 
     context['posts'] = posts_list
@@ -60,7 +58,7 @@ def subscription(request):
     context = {}
 
     if request.method == "POST":
-        UForm = UsersForm(request.POST)
+        UForm = UsersForm(user=request.user, data=request.POST)
         if UForm.is_valid():
             username = UForm.cleaned_data['username']
             user = User.objects.filter(username=username).first()
@@ -71,12 +69,11 @@ def subscription(request):
                     userFollows.followed_user = user
                     userFollows.save()
                     success = str(userFollows.followed_user) + " ajouté."
-                    print(userFollows.followed_user)
                     messages.success(request, success)
             except Exception as e:
                 messages.error(request, e)
 
-    UForm = UsersForm()
+    UForm = UsersForm(user=request.user)
     following_users = UserFollows.objects.filter(user=request.user)
     followed_users = UserFollows.objects.filter(followed_user=request.user)
 
@@ -109,9 +106,14 @@ def create_ticket(request):
     if request.method == "POST":
         TForm = TicketForm(request.POST, request.FILES)
         if TForm.is_valid():
-            ticket = TForm.save(commit=False)
-            ticket.user = request.user
-            ticket.save()
+            try:
+                ticket = TForm.save(commit=False)
+                ticket.user = request.user
+                ticket.save()
+                print(TForm)
+                messages.success(request, "Demande de critique créée.")
+            except Exception as e:
+                messages.error(request, e)
 
         return redirect(reverse('apps:flux'))
     else:
@@ -150,6 +152,7 @@ def delete_ticket(request, id):
     ticket = get_object_or_404(Ticket, pk=id)
 
     if request.method == "POST":
+        ticket.image.delete()
         ticket.delete()
 
     return redirect(reverse('apps:posts'))
@@ -162,13 +165,20 @@ def add_review(request):
 
     RForm = ReviewForm(request.POST or None)
     if request.method == "POST":
-        if RForm.is_valid():
+        try:
             ticket_id = request.POST.get('post_id')
             ticket = get_object_or_404(Ticket, pk=ticket_id)
-            review = RForm.save(commit=False)
+            review = Review()
+            rating = request.POST.get('val_star')
+            review.headline = RForm.data['headline']
+            review.body = RForm.data['body']
+            review.rating = rating
             review.ticket = ticket
             review.user = request.user
             review.save()
+            messages.success(request, "Critique Créée.")
+        except Exception as e:
+            messages.error(request, e)
 
         return redirect(reverse('apps:flux'))
 
@@ -199,8 +209,16 @@ def update_review(request, id):
     context['ticket'] = review.ticket
 
     if request.method == "POST":
-        RForm = ReviewForm(request.POST)
-        RForm.save()
+        try:
+            RForm = ReviewForm(request.POST, instance=review)
+            rating = request.POST.get('val_star')
+            review.headline = RForm.data['headline']
+            review.body = RForm.data['body']
+            review.rating = rating
+            review.save()
+            messages.success(request, "Critique modifiée.")
+        except Exception as e:
+            messages.error(request, e)
 
         return redirect(reverse('apps:posts'))
     else:
@@ -220,15 +238,25 @@ def create_review(request):
     if request.method == "POST":
         TForm = TicketForm(request.POST, request.FILES)
         RForm = ReviewForm(request.POST)
-        if TForm.is_valid() and RForm.is_valid():
-            ticket = TForm.save(commit=False)
-            ticket.user = request.user
-            ticket.save()
-            review = RForm.save(commit=False)
-            review.ticket = ticket
-            review.user = request.user
-            review.save()
-        return redirect(reverse('apps:flux'))
+        if TForm.is_valid():
+            try:
+                ticket = TForm.save(commit=False)
+                ticket.user = request.user
+                ticket.image = request.FILES.get('TForm-image')
+                ticket.save()
+                review = Review()
+                rating = request.POST.get('val_star')
+                review.headline = RForm.data['headline']
+                review.body = RForm.data['body']
+                review.rating = rating
+                review.user = request.user
+                review.ticket = ticket
+                review.save()
+                messages.success(request, "Critique créée.")
+            except Exception as e:
+                messages.error(request, e)
+
+            return redirect(reverse('apps:flux'))
     else:
         TForm = TicketForm()
         RForm = ReviewForm()

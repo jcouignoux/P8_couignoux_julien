@@ -3,14 +3,22 @@
 {% block content %}
     <div>
         <div class="cont title">Flux</div>
-            <a href="{% url 'apps:create_ticket' %}"><button class="btn">Demander une critique</button></a>
-            <a href="{% url 'apps:create_review' %}"><button class="btn">Créer une critique</button></a>
-        {% for post in posts %}
-            {% if 'Ticket' in post.class_name %}
-                {% include 'apps/ticket_item.html' with post=post %}
-            {% elif 'Review' in post.class_name %}
-                {% include 'apps/review_item.html' with post=post %}
-            {% endif %}
-        {% endfor %}
+        <a href="{% url 'apps:create_ticket' %}"><button class="btn">Demander une critique</button></a>
+        <a href="{% url 'apps:create_review' %}"><button class="btn">Créer une critique</button></a>
+        {% include 'apps/messages.html' %}
+        {% if posts %}
+            {% for post in posts %}
+                {% if 'Ticket' in post.class_name %}
+                    {% include 'apps/ticket_item.html' with post=post %}
+                {% elif 'Review' in post.class_name %}
+                    {% include 'apps/review_item.html' with post=post %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>Vous n'avez aucune critique.</p>
+            <p>Vérifiez que vous suiviez bien des camarades
+                <a href="{% url 'apps:subscription' %}"> ici</a>.
+            </p>
+        {% endif %}
     </div>
 {% endblock %}

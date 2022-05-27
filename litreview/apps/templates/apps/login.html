@@ -12,7 +12,7 @@
             <div class="title">Connectez-vous</div>
             <form class="form form-label" action="{% url 'apps:login' %}" method="POST">
                 {% csrf_token %}
-                {% bootstrap_form AForm %}
+                {% bootstrap_form AForm show_label=False %}
                 <button class="btn" type="submit">Se connecter</button>
             </form>
         </div>

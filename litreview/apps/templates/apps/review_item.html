@@ -7,8 +7,14 @@
     <div class="card-body">
         <div class="card-title title">{{ post.title }}</div>
         <div class="card-text">
-            <div>{{ post.headline }}</div>
-            <div>{{ post.rating }}</div>
+            <span>{{ post.headline }}</span>
+            {% for star in '01234'|make_list %}
+                {% if forloop.counter <= post.rating %}
+                    <span class="fa fa-star star-btn checked"></span>
+                {% else %}
+                    <span class="fa fa-star star-btn"></span>
+                {% endif %}
+            {% endfor %}
             <div>{{ post.body }}</div>
         </div>
         {% if post.user == user %}
@@ -28,9 +34,9 @@
             </div>
         {% endif %}
     </div>
-    <div class="card-footer">
-        {% if only != 'only' %}
+    {% if only != 'only' %}
+        <div class="card-footer">
             {% include 'apps/ticket_item.html' with post=post.ticket %}
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 </div>
