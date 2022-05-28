@@ -18,12 +18,12 @@
                 <form class="form" action="{% url 'apps:update_ticket' post.id %}" method="GET">
                     {% csrf_token %}
                     <input type="hidden" name="ticket_id" value="{{ post.id }}">
-                    <button class="btn">Modifier le ticket</button>
+                    <button class="myBtn">Modifier le ticket</button>
                 </form>
                 <form class="form" action="{% url 'apps:delete_ticket' post.id %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="ticket_id" value="{{ post.id }}">
-                    <button class="btn">Supprimer le ticket</button>
+                    <button class="myBtn">Supprimer le ticket</button>
                 </form>
             </div>
         {% endif %}

@@ -6,14 +6,14 @@
     <div class="row">
         <div class="col-6">
             <div class="title">Inscrivez-vous maintenant</div>
-            <a href="{% url 'apps:signup' %}"><button class="btn">S'inscrire</button></a>
+            <a href="{% url 'apps:signup' %}"><button class="myBtn">S'inscrire</button></a>
         </div>
         <div class="col-6">
             <div class="title">Connectez-vous</div>
             <form class="form form-label" action="{% url 'apps:login' %}" method="POST">
                 {% csrf_token %}
                 {% bootstrap_form AForm show_label=False %}
-                <button class="btn" type="submit">Se connecter</button>
+                <button class="myBtn" type="submit">Se connecter</button>
             </form>
         </div>
     </div>

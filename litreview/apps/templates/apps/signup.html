@@ -8,9 +8,9 @@
             <form class="form form-label" action="{% url 'apps:signup' %}" method="POST">
                 {% csrf_token %}
                 {% bootstrap_form UForm show_label=False %}
-                <button  class="btn" type="submit">S'inscrire</button>
+                <button  class="myBtn" type="submit">S'inscrire</button>
             </form>
-            <a href="{% url 'apps:index' %}"><button class="btn">Retourner</button></a>
+            <a href="{% url 'apps:index' %}"><button class="myBtn">Retourner</button></a>
             {% if messages %}
                 {% for message in messages %}
                     {{ message }}

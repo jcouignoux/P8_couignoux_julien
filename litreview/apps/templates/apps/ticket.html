@@ -10,13 +10,13 @@
             <form class="form form-label" enctype="multipart/form-data" action="{% url 'apps:create_ticket' %}" method="POST">
                 {% csrf_token %}
                 {% bootstrap_form TForm show_label=False %}
-                <button class="btn" type="submit">Envoyer</button>
+                <button class="myBtn" type="submit">Envoyer</button>
             </form>
         {% elif title == 'Modifier un ticket' %}
         <form class="form form-label" enctype="multipart/form-data" action="{% url 'apps:update_ticket' ticket.id %}" method="POST">
             {% csrf_token %}
             {% bootstrap_form TForm show_label=False %}
-            <button class="btn" type="submit">Envoyer</button>
+            <button class="myBtn" type="submit">Envoyer</button>
         </form>
         {% endif %}
     </div>

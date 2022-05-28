@@ -23,13 +23,13 @@
                     {% csrf_token %}
                     <input type="hidden" name="review_id" value="{{ post.id }}">
                     <input type="hidden" name="ticket_id" value="{{ post.ticket.id }}">
-                    <button class="btn">Modifier la critique</button>
+                    <button class="myBtn">Modifier la critique</button>
                 </form>
                 <form class="form" action="{% url 'apps:delete_review' post.id %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="review_id" value="{{ post.id }}">
                     <input type="hidden" name="ticket_id" value="{{ post.ticket.id }}">
-                    <button class="btn">Supprimer la critique</button>
+                    <button class="myBtn">Supprimer la critique</button>
                 </form>
             </div>
         {% endif %}

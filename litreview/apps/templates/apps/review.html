@@ -13,7 +13,7 @@
                 {% bootstrap_field RForm.body show_label=False %}
                 <input id='test' type="hidden" name="val_star" value="">
                 {% include 'apps/star-rating.html' %}
-                <button class="btn" type="submit">Envoyer</button>
+                <button class="myBtn" type="submit">Envoyer</button>
             </form>
         {% elif title == 'Modifier une critique' %}
             <form class="form form-label" action="{% url 'apps:update_review' review.id %}" method="POST">
@@ -23,7 +23,7 @@
                 {% bootstrap_field RForm.body show_label=False %}
                 <input id='test' type="hidden" name="val_star" value="{{ RForm.rating.value }}">
                 {% include 'apps/star-rating.html' with rating=RForm.rating.value %}
-                <button class="btn" type="submit">Envoyer</button>
+                <button class="myBtn" type="submit">Envoyer</button>
             </form>
         {% endif %}
     </div>
