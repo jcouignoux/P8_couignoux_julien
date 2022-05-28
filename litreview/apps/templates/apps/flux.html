@@ -3,10 +3,13 @@
 {% block content %}
     <div>
         <div class="cont title">Flux</div>
-        <a href="{% url 'apps:create_ticket' %}"><button class="btn">Demander une critique</button></a>
-        <a href="{% url 'apps:create_review' %}"><button class="btn">Créer une critique</button></a>
+        <a href="{% url 'apps:create_ticket' %}"><button class="myBtn">Demander une critique</button></a>
+        <a href="{% url 'apps:create_review' %}"><button class="myBtn">Créer une critique</button></a>
         {% include 'apps/messages.html' %}
         {% if posts %}
+            {% if paginate %}
+                {% include 'apps/pagination.html' %}
+            {% endif %}
             {% for post in posts %}
                 {% if 'Ticket' in post.class_name %}
                     {% include 'apps/ticket_item.html' with post=post %}
@@ -19,6 +22,9 @@
             <p>Vérifiez que vous suiviez bien des camarades
                 <a href="{% url 'apps:subscription' %}"> ici</a>.
             </p>
+            {% if paginate %}
+                {% include 'apps/pagination.html' %}
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}

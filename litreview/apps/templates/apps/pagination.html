@@ -1,0 +1,36 @@
+<div class="container px-4 px-lg-5 mt-5 justify-content-center">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-2">
+        <div class="clearfix"></div>
+        <nav aria-label="...">
+            <ul class="pagination">
+            {% if posts.has_previous %}
+                <li class="page-item">
+                    <a class="btn mt-auto" href="?page=1"><i class="fa fa-chevron-left ps-1 me-1"></i></a>
+                </li>
+                {% if posts.previous_page_number|add:'-1' >= 1 %}
+                    <li class="page-item">
+                        <a class="btn mt-auto" href="?page={{ posts.previous_page_number|add:'-1' }}">{{ posts.number|add:"-2" }}</a>
+                    </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="btn mt-auto" href="?page={{ posts.previous_page_number }}">{{ posts.number|add:"-1" }}</a>
+                </li>
+            {% endif %}
+                <li class="page-item active"><a class="btn btn-dark btn-outline-secondary mt-auto text-white" href="">{{ posts.number }}</a></li>
+            {% if posts.has_next %}
+                <li class="page-item">
+                    <a class="btn mt-auto" href="?page={{ posts.next_page_number }}">{{ posts.number|add:"1" }}</a>
+                </li>
+                {% if posts.next_page_number|add:'1' <= posts.paginator.num_pages %}
+                    <li class="page-item">
+                        <a class="btn mt-auto" href="?page={{ posts.next_page_number|add:'1' }}">{{ posts.number|add:"2" }}</a>
+                    </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="btn mt-auto" href="?page={{ posts.paginator.num_pages }}"><i class="fa fa-chevron-right ps-1 me-1"></i></a>
+                </li>
+            {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
