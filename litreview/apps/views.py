@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 from apps.forms import TicketForm, ReviewForm, UsersForm
@@ -33,6 +34,16 @@ def flux(request):
     RForm = ReviewForm()
     posts_list = get_all_posts(users)
 
+    paginator = Paginator(posts_list, 5)
+    page = request.GET.get('page')
+    try:
+        posts_list = paginator.page(page)
+    except PageNotAnInteger:
+        posts_list = paginator.page(1)
+    except EmptyPage:
+        posts_list = paginator.page(paginator.num_pages)
+
+    context['paginate'] = True
     context['posts'] = posts_list
     context['RForm'] = RForm
 
@@ -46,6 +57,16 @@ def posts(request):
 
     RForm = ReviewForm(request.POST or None)
     posts_list = get_all_posts(users=[request.user])
+    paginator = Paginator(posts_list, 5)
+    page = request.GET.get('page')
+    try:
+        posts_list = paginator.page(page)
+    except PageNotAnInteger:
+        posts_list = paginator.page(1)
+    except EmptyPage:
+        posts_list = paginator.page(paginator.num_pages)
+
+    context['paginate'] = True
     context['posts'] = posts_list
     context['RForm'] = RForm
 
