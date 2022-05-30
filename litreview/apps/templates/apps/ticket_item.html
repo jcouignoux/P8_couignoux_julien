@@ -30,7 +30,7 @@
         {% if title != 'Modifier une critique' %}
             <ul class="list-group">
             {% for review in post.get_reviews %}
-                <a data-bs-toggle="modal" data-bs-target="#Modal{{ review.id }}">
+                <a class="modal-link" data-bs-toggle="modal" data-bs-target="#Modal{{ review.id }}">
                     {{ review.user.username }} a publié une critique le {{ review.time_created }}
                 </a>
                 {% include 'apps/post_modal.html' with post=review %}

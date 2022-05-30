@@ -1,13 +1,17 @@
 html,
 body {
   height: 100%;
-  background-color: ivory;
   font-family: 'Calisto MT', 'Arial', 'sans-serif';
+  background: radial-gradient(#e2e2e5, #797676);
 }
 
 html .title,
 body .title {
   font-size: 32px;
+}
+
+header {
+  margin-bottom: 10px;
 }
 
 header img {
@@ -16,10 +20,23 @@ header img {
 
 header .title {
   font-size: 92px;
+  font-weight: bold;
+}
+
+.container {
+  width: 960px;
 }
 
 .cont {
-  width: 700px;
+  width: 800px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.cont .title {
+  font-size: 32px;
+  text-align: center;
 }
 
 .table {
@@ -28,10 +45,28 @@ header .title {
 
 .card {
   max-width: 100%;
+  border-radius: 12px;
+  margin: 2px;
+  padding: 10px;
 }
 
 .card .card-header {
   background: transparent;
+}
+
+.card .card-body {
+  background: transparent;
+}
+
+.card .card-body .card-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.card .card-body .card-text {
+  border-style: groove;
+  font-size: 14px;
+  padding: 10px;
 }
 
 .card img {
@@ -39,29 +74,38 @@ header .title {
 }
 
 .card .title {
-  font-size: 48px;
+  font-size: 24px;
+}
+
+.accordion-button:not(.collapsed) {
+  background: #f3f0f1;
+  color: black;
+}
+
+.accordion-button:focus {
+  -webkit-box-shadow: inherit;
+          box-shadow: inherit;
 }
 
 .myBtn {
+  max-width: 90%;
   width: 250px;
   height: 40px;
+  font-size: 16px;
   background: #f3f0f1;
   position: relative;
-  background: #f3f0f1;
-  margin: 15px;
+  margin: 10px;
   border-radius: 24px;
   text-align: center;
   cursor: pointer;
   -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
-  -webkit-box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
-          box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
-  color: #6f6cde;
+  -webkit-box-shadow: -1px -1px 10px rgba(255, 255, 255, 0.8), 1px 1px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: -1px -1px 10px rgba(255, 255, 255, 0.8), 1px 1px 10px rgba(0, 0, 0, 0.2);
 }
 
 .myBtn span {
   line-height: 100px;
-  font-family: "Montserrat", sans-serif;
   font-size: 32px;
   font-weight: semibold;
 }
@@ -72,13 +116,6 @@ header .title {
           box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
 }
 
-.myBtn:active {
-  opacity: 1;
-  -webkit-box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5), inset 8px 8px 16px rgba(0, 0, 0, 0.1);
-          box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5), inset 8px 8px 16px rgba(0, 0, 0, 0.1);
-  color: #79e3b6;
-}
-
 .checked {
   color: orange;
 }
@@ -86,5 +123,10 @@ header .title {
 .star-btn {
   background-color: inherit !important;
   border: 0 !important;
+}
+
+.modal-link {
+  color: inherit;
+  cursor: pointer;
 }
 /*# sourceMappingURL=style.css.map */

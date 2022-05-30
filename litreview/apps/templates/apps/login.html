@@ -4,11 +4,11 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-6">
+        <div class="col-5 card">
             <div class="title">Inscrivez-vous maintenant</div>
             <a href="{% url 'apps:signup' %}"><button class="myBtn">S'inscrire</button></a>
         </div>
-        <div class="col-6">
+        <div class="col-5 card">
             <div class="title">Connectez-vous</div>
             <form class="form form-label" action="{% url 'apps:login' %}" method="POST">
                 {% csrf_token %}

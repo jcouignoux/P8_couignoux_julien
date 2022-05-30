@@ -3,7 +3,7 @@
 {% load bootstrap5 %}
 
 {% block content %}
-        <div>
+        <div class="card">
             <div class="title">Inscrivez-vous</div>
             <form class="form form-label" action="{% url 'apps:signup' %}" method="POST">
                 {% csrf_token %}
