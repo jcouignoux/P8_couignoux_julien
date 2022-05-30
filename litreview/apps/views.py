@@ -263,7 +263,8 @@ def create_review(request):
             try:
                 ticket = TForm.save(commit=False)
                 ticket.user = request.user
-                ticket.image = request.FILES.get('TForm-image')
+                ticket.image = request.FILES.get('image')
+                print(TForm)
                 ticket.save()
                 review = Review()
                 rating = request.POST.get('val_star')
