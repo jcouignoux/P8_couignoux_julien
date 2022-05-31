@@ -70,6 +70,14 @@ The Secret_Key required for the execution and debugging of project is not remove
 ***
 ## IV. DataBase <a class="anchor" id="chapter4"></a>
 A default database with fake users can be used to test the application.
+For a database from scratch, you have to create :
+* a superuser: python manage.py createsuperuser
+* the community group via the admin interface.
+    * Click on the Add button in line Groupes.
+    ![](doc/groupes_add.png)
+    * Enter the name (case sensitive) and Save.
+    ![](doc/group.png)
+
 
 ### Default password <a class="anchor" id="section4_1"></a>
 For each users or superusers, default password is ***passwOrd2022***
