@@ -4,8 +4,8 @@ beautifulsoup4==4.11.1
 Django==4.0.4
 django-bootstrap-v5==1.0.11
 django-braces==1.15.0
+django-generic-ratings==0.7
 django-model-utils==4.2.0
-django-starfield==1.0.post2
 Pillow==9.1.0
 pycodestyle==2.8.0
 soupsieve==2.3.2.post1

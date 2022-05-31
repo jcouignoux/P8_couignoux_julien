@@ -301,8 +301,9 @@ def delete_review(request, id):
 def connexion(request):
 
     context = {}
-    AForm = AuthenticationForm(request, data=request.POST or None)
+
     if request.method == "POST":
+        AForm = AuthenticationForm(data=request.POST)
         if AForm.is_valid():
             username = AForm.cleaned_data['username']
             password = AForm.cleaned_data['password']
@@ -311,13 +312,16 @@ def connexion(request):
             if user is not None:
                 login(request, user)
                 return redirect(reverse('apps:flux'))
-            else:
-                error_message = "Identifiant ou mot de passe incorrect."
-                messages.error(request, error_message)
-        context['AForm'] = AForm
+            # else:
+            #     error_message = "Identifiant ou mot de passe incorrect."
+            #     messages.error(request, error_message)
+        else:
+            context['AForm'] = AForm
+            return render(request, 'apps/login.html', context)
     else:
-        AForm = AuthenticationForm(request)
-        context['AForm'] = AForm
+        AForm = AuthenticationForm()
+
+    context['AForm'] = AForm
 
     return render(request, 'apps/login.html', context)
 
