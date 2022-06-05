@@ -15,7 +15,8 @@
                 {% include 'apps/star-rating.html' %}
                 <button class="myBtn" type="submit">Envoyer</button>
             </form>
-        {% elif title == 'Modifier une critique' %}
+        {% endif %}
+        {% if title == 'Modifier une critique' %}
             <form class="form form-label" action="{% url 'apps:update_review' review.id %}" method="POST">
                 {% csrf_token %}
                 {% include 'apps/ticket_item.html' with post=ticket %}

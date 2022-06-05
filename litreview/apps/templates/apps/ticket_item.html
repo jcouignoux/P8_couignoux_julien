@@ -13,7 +13,7 @@
                 <img src="/media/{{ post.image }}" alt="...">
             {% endif %}
         </div>
-        {% if post.user == user %}
+        {% if post.user == user and title != 'Modifier une critique'%}
             <div>
                 <form class="form" action="{% url 'apps:update_ticket' post.id %}" method="GET">
                     {% csrf_token %}
