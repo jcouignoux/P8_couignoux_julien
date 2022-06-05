@@ -129,7 +129,6 @@ def create_ticket(request):
                 ticket = TForm.save(commit=False)
                 ticket.user = request.user
                 ticket.save()
-                print(TForm)
                 messages.success(request, "Demande de critique créée.")
             except Exception as e:
                 messages.error(request, e)
@@ -226,6 +225,7 @@ def update_review(request, id):
     review = get_object_or_404(Review, pk=id)
     context['review'] = review
     context['ticket'] = review.ticket
+    print("test")
 
     if request.method == "POST":
         try:
@@ -262,7 +262,6 @@ def create_review(request):
                 ticket = TForm.save(commit=False)
                 ticket.user = request.user
                 ticket.image = request.FILES.get('image')
-                print(TForm)
                 ticket.save()
                 review = Review()
                 rating = request.POST.get('val_star')
